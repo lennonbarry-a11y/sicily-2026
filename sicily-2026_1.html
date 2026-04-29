@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>🇮🇹 La Bella Sicilia — Aug 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #B8975A;
+    --dark: #1A1714;
+    --cream: #FAF8F4;
+    --warm: #F2EDE4;
+    --muted: #8C7B6B;
+    --border: rgba(26,23,20,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: var(--cream); font-family: 'Outfit', sans-serif; color: var(--dark); overscroll-behavior: none; }
+  body { max-width: 480px; margin: 0 auto; position: relative; }
+  button { font-family: 'Outfit', sans-serif; cursor: pointer; border: none; background: none; -webkit-appearance: none; }
+  a { text-decoration: none; color: inherit; }
+  img { display: block; }
+  .serif { font-family: 'Cormorant Garamond', serif; }
+
+  /* Scroll area */
+  #app { padding-bottom: 76px; min-height: 100vh; }
+
+  /* Bottom nav */
+  #bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 480px;
+    background: var(--dark); border-top: 1px solid rgba(184,151,90,0.2);
+    display: flex; z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom, 6px);
+  }
+  .nav-btn {
+    flex: 1; padding: 10px 4px 8px; display: flex; flex-direction: column;
+    align-items: center; gap: 3px; transition: opacity .15s;
+  }
+  .nav-btn:active { opacity: .6; }
+  .nav-btn .nav-icon { font-size: 18px; line-height: 1; }
+  .nav-btn .nav-label { font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: #5A5048; font-weight: 400; }
+  .nav-btn.active .nav-label { color: var(--gold); font-weight: 600; }
+  .nav-btn .nav-bar { width: 20px; height: 1.5px; background: var(--gold); border-radius: 1px; margin-top: 1px; display: none; }
+  .nav-btn.active .nav-bar { display: block; }
+
+  /* Tabs */
+  .tab { display: none; }
+  .tab.active { display: block; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(160deg, #1A1714 0%, #2C2218 65%, #1E1A14 100%);
+    padding: 48px 20px 36px;
+  }
+  .hero-eyebrow { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; font-weight: 500; }
+  .hero-title { font-size: 52px; font-weight: 300; color: #F5F0E8; line-height: .9; letter-spacing: -.01em; margin-bottom: 14px; }
+  .hero-title em { color: var(--gold); font-style: italic; }
+  .hero-sub { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: #5A5048; margin-bottom: 36px; }
+
+  /* Stats strip */
+  .stats { display: flex; border-top: 1px solid rgba(184,151,90,0.15); padding-top: 24px; margin-bottom: 32px; }
+  .stat { flex: 1; text-align: center; border-right: 1px solid rgba(184,151,90,0.15); padding-bottom: 4px; }
+  .stat:last-child { border-right: none; }
+  .stat-n { font-size: 22px; font-weight: 300; color: var(--gold); line-height: 1; }
+  .stat-l { font-size: 8px; letter-spacing: .18em; text-transform: uppercase; color: #5A5048; margin-top: 5px; }
+
+  /* Countdown */
+  .countdown-wrap { border-top: 1px solid rgba(184,151,90,0.15); padding-top: 24px; }
+  .section-eyebrow { font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; font-weight: 500; }
+  .countdown { display: flex; gap: 8px; }
+  .count-box { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(184,151,90,0.2); border-radius: 6px; padding: 14px 4px 10px; text-align: center; }
+  .count-n { font-size: 36px; font-weight: 300; color: #F5F0E8; line-height: 1; }
+  .count-l { font-size: 8.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-top: 7px; }
+  .count-note { margin-top: 12px; font-size: 12px; color: #5A5048; font-style: italic; font-family: 'Cormorant Garamond', serif; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+  .pulse { animation: pulse 1.5s ease infinite; }
+
+  /* Gallery */
+  .section-pad { padding: 28px 16px 0; }
+  .section-header { margin-bottom: 20px; }
+  .section-header h2 { font-size: 26px; font-weight: 300; line-height: 1.1; }
+  .pills { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .pills::-webkit-scrollbar { display: none; }
+  .pill { flex-shrink: 0; border: 1px solid rgba(26,23,20,0.2); border-radius: 20px; padding: 7px 16px; font-size: 12px; font-weight: 400; color: var(--muted); transition: all .15s; }
+  .pill.active { background: var(--dark); color: #F5F0E8; border-color: var(--dark); font-weight: 600; }
+  .pill:active { opacity: .7; }
+
+  /* Gallery image */
+  .gallery-wrap { margin: 0 -16px; position: relative; }
+  .gallery-img { width: 100%; height: 280px; object-fit: cover; transition: opacity .3s; }
+  .gallery-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(26,23,20,.88) 0%, transparent 100%);
+    padding: 36px 16px 16px;
+  }
+  .gallery-caption-eye { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .gallery-caption-title { font-size: 22px; font-weight: 300; color: #F5F0E8; }
+  .gallery-arrow { position: absolute; top: 45%; transform: translateY(-50%); background: rgba(26,23,20,.55); color: #F5F0E8; border-radius: 50%; width: 36px; height: 36px; font-size: 20px; display: flex; align-items: center; justify-content: center; transition: opacity .15s; }
+  .gallery-arrow:active { opacity: .5; }
+  .gallery-arrow.left { left: 10px; }
+  .gallery-arrow.right { right: 10px; }
+  .gallery-thumbs { display: flex; gap: 6px; margin: 8px 0 0; }
+  .gallery-thumb { flex: 1; height: 56px; border-radius: 4px; overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color .15s; }
+  .gallery-thumb.active { border-color: var(--gold); }
+  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Trip cards */
+  .trip-cards { display: flex; flex-direction: column; gap: 10px; }
+  .trip-card { background: #fff; border: 1px solid rgba(26,23,20,0.07); border-radius: 10px; padding: 16px; display: flex; gap: 14px; align-items: flex-start; box-shadow: 0 1px 10px rgba(26,23,20,0.05); cursor: pointer; transition: opacity .15s; }
+  .trip-card:active { opacity: .7; }
+  .trip-card-icon { font-size: 26px; line-height: 1; flex-shrink: 0; }
+  .trip-card-body { flex: 1; min-width: 0; }
+  .trip-card-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+  .trip-card-name { font-size: 20px; font-weight: 400; }
+  .trip-card-nights { font-size: 10px; color: var(--gold); letter-spacing: .1em; text-transform: uppercase; flex-shrink: 0; }
+  .trip-card-dates { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
+  .trip-card-desc { font-size: 12.5px; color: #3D3530; }
+  .trip-card-accom { font-size: 11px; color: #A0907C; font-style: italic; margin-top: 4px; }
+  .trip-card-arrow { color: #C4BAB0; font-size: 16px; align-self: center; flex-shrink: 0; }
+
+  /* Flight summary box */
+  .flight-box { margin: 20px 16px 0; background: var(--dark); border-radius: 10px; padding: 18px 16px; }
+  .flight-row { display: flex; gap: 10px; align-items: flex-start; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .flight-row:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
+  .flight-dir { font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); flex-shrink: 0; padding-top: 1px; width: 34px; }
+  .flight-detail { font-size: 13px; color: #8C7B6B; line-height: 1.5; }
+
+  /* ── ITINERARY TAB ── */
+  .stop-header { background: var(--dark); padding: 20px 16px 16px; }
+  .stop-selector { display: flex; gap: 8px; margin-top: 12px; }
+  .stop-btn { flex: 1; background: rgba(255,255,255,0.06); color: #B8A898; border: 1px solid rgba(184,151,90,0.2); border-radius: 6px; padding: 10px 4px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-align: center; transition: all .15s; }
+  .stop-btn.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+  .stop-btn:active { opacity: .7; }
+  .stop-info { background: var(--warm); padding: 14px 16px; border-bottom: 1px solid rgba(26,23,20,0.07); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .stop-name { font-size: 22px; font-weight: 400; }
+  .stop-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .stop-base { font-size: 10px; color: var(--muted); text-align: right; max-width: 160px; line-height: 1.4; }
+
+  /* Day pills */
+  .day-pills { padding: 14px 16px 10px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .day-pills::-webkit-scrollbar { display: none; }
+  .day-pill { flex-shrink: 0; background: #fff; color: var(--muted); border: 1px solid rgba(26,23,20,0.12); border-radius: 20px; padding: 8px 14px; font-size: 12px; font-weight: 400; white-space: nowrap; transition: all .15s; }
+  .day-pill.active { background: var(--dark); color: #F5F0E8; border-color: var(--dark); font-weight: 600; }
+  .day-pill:active { opacity: .7; }
+
+  /* Travel notice */
+  .travel-notice { margin: 0 16px 10px; background: #FDF6EC; border: 1px solid rgba(184,151,90,0.3); border-left: 3px solid var(--gold); border-radius: 0 6px 6px 0; padding: 11px 14px; font-size: 13px; color: #8C6A30; display: flex; gap: 8px; }
+
+  /* Day card */
+  .day-card { margin: 0 16px; background: #fff; border: 1px solid rgba(26,23,20,0.08); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 16px rgba(26,23,20,0.05); margin-bottom: 14px; }
+  .day-card-header { background: var(--warm); padding: 16px; border-bottom: 1px solid rgba(26,23,20,0.06); }
+  .day-card-eye { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 6px; }
+  .day-card-title { font-size: 22px; font-weight: 400; }
+  .day-card-vibe { margin-top: 6px; font-size: 13px; color: #8C6A30; font-style: italic; font-family: 'Cormorant Garamond', serif; }
+  .day-row { display: flex; border-bottom: 1px solid rgba(26,23,20,0.05); }
+  .day-row:last-child { border-bottom: none; }
+  .day-time { width: 90px; flex-shrink: 0; padding: 13px 12px; font-size: 10px; font-weight: 600; color: var(--gold); letter-spacing: .08em; text-transform: uppercase; border-right: 1px solid rgba(26,23,20,0.05); line-height: 1.4; }
+  .day-text { padding: 13px 14px; font-size: 13.5px; color: #3D3530; line-height: 1.6; flex: 1; }
+
+  /* Nav arrows */
+  .day-nav { display: flex; gap: 10px; padding: 0 16px; margin-bottom: 20px; }
+  .day-nav-btn { flex: 1; background: #fff; border: 1px solid rgba(26,23,20,0.1); border-radius: 8px; padding: 12px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--dark); font-weight: 500; transition: opacity .15s; }
+  .day-nav-btn:disabled { color: #C4BAB0; background: rgba(26,23,20,0.03); }
+  .day-nav-btn:active:not(:disabled) { opacity: .7; }
+
+  /* Must-dos */
+  .must-list { background: #fff; border: 1px solid rgba(26,23,20,0.07); border-radius: 10px; overflow: hidden; }
+  .must-item { display: flex; gap: 14px; align-items: center; padding: 14px 16px; border-bottom: 1px solid rgba(26,23,20,0.06); }
+  .must-item:last-child { border-bottom: none; }
+  .must-dot { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .must-dot-inner { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+  .must-text { font-size: 13.5px; color: #3D3530; }
+
+  /* Tips box */
+  .tips-box { margin: 16px 16px 0; background: var(--dark); border-radius: 10px; padding: 18px 0 4px; }
+  .tips-eye { font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); font-weight: 500; padding: 0 16px 12px; }
+  .tip-row { display: flex; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .tip-row:last-child { border-bottom: none; padding-bottom: 14px; }
+  .tip-icon { font-size: 15px; flex-shrink: 0; }
+  .tip-label { font-size: 11px; font-weight: 600; color: #F5F0E8; margin-bottom: 3px; }
+  .tip-text { font-size: 13px; color: #8C7B6B; line-height: 1.6; }
+
+  /* Depart bar */
+  .depart-bar { margin: 10px 16px 0; display: flex; gap: 12px; align-items: center; padding: 13px 14px; background: var(--warm); border: 1px solid rgba(26,23,20,0.08); border-radius: 8px; font-size: 13px; color: var(--muted); }
+
+  /* ── TRAVEL TAB ── */
+  .tab-pad { padding: 20px 16px; }
+  .tab-section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(26,23,20,0.1); }
+  .tab-section-header h2 { font-size: 26px; font-weight: 300; }
+  .tab-section-eye { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+  .toggle { display: flex; border: 1px solid rgba(26,23,20,0.1); border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+  .toggle-btn { flex: 1; background: #fff; color: var(--muted); padding: 12px 8px; font-size: 12px; font-weight: 400; letter-spacing: .06em; transition: all .15s; }
+  .toggle-btn.active { background: var(--dark); color: #F5F0E8; font-weight: 500; }
+  .toggle-btn:active { opacity: .7; }
+  .flight-card { background: #fff; border: 1px solid rgba(26,23,20,0.08); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 14px rgba(26,23,20,0.05); margin-bottom: 10px; }
+  .flight-card-header { background: var(--dark); padding: 16px; }
+  .flight-card-route { font-size: 20px; font-weight: 300; color: #F5F0E8; margin-bottom: 3px; }
+  .flight-card-sub { font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+  .flight-card-body { padding: 18px 16px; }
+  .flight-times { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .flight-time { font-size: 38px; font-weight: 400; color: var(--dark); line-height: 1; }
+  .flight-airport { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .flight-mid { text-align: center; }
+  .flight-dur { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .flight-line { height: 1px; width: 48px; background: linear-gradient(to right, var(--gold), rgba(184,151,90,.2)); margin: 0 auto; }
+  .flight-direct { font-size: 9px; color: var(--gold); margin-top: 5px; letter-spacing: .1em; }
+  .flight-notes { background: var(--warm); border-radius: 6px; padding: 10px 12px; font-size: 13px; color: #8C6A30; font-style: italic; font-family: 'Cormorant Garamond', serif; line-height: 1.5; }
+  .tip-list { background: #fff; border: 1px solid rgba(26,23,20,0.08); border-radius: 10px; overflow: hidden; margin-top: 8px; }
+  .tip-list-row { display: flex; gap: 12px; padding: 13px 14px; border-bottom: 1px solid rgba(26,23,20,0.06); font-size: 13px; color: #3D3530; line-height: 1.6; align-items: flex-start; }
+  .tip-list-row:last-child { border-bottom: none; }
+
+  /* Accommodation */
+  .accom-card { background: #fff; border: 1px solid rgba(26,23,20,0.08); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 14px rgba(26,23,20,0.05); margin-bottom: 8px; }
+  .accom-header { background: var(--warm); padding: 14px 16px; border-bottom: 1px solid rgba(26,23,20,0.07); display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .accom-eye { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .accom-name { font-size: 22px; font-weight: 400; }
+  .accom-priority { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .accom-badge { background: var(--dark); color: var(--gold); border-radius: 4px; padding: 4px 10px; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 500; flex-shrink: 0; height: fit-content; }
+  .accom-option { padding: 14px 16px; border-bottom: 1px solid rgba(26,23,20,0.06); }
+  .accom-option:last-child { border-bottom: none; }
+  .accom-opt-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+  .accom-opt-name { font-weight: 600; font-size: 14px; color: var(--dark); }
+  .accom-opt-tier { border-radius: 100px; padding: 2px 9px; font-size: 10.5px; font-weight: 600; }
+  .tier-booked { background: #DCFCE7; color: #166534; }
+  .tier-generic { background: #FEF9C3; color: #713F12; }
+  .accom-opt-link { font-size: 11px; color: var(--gold); letter-spacing: .1em; text-transform: uppercase; font-weight: 500; }
+  .accom-opt-note { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── DINING TAB ── */
+  .rest-card { background: #fff; border: 1px solid rgba(26,23,20,0.08); border-radius: 0 8px 8px 0; padding: 14px; box-shadow: 0 1px 6px rgba(26,23,20,0.04); margin-bottom: 8px; border-left: 3px solid rgba(26,23,20,0.08); }
+  .rest-card.must { border-left-color: var(--gold); }
+  .rest-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+  .rest-name { font-size: 17px; font-weight: 500; color: var(--dark); }
+  .rest-essential { background: #FBF3E4; color: #8C6A30; border: 1px solid rgba(184,151,90,0.3); border-radius: 100px; padding: 2px 8px; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; flex-shrink: 0; }
+  .rest-right { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+  .rest-price { font-size: 15px; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
+  .rest-link { font-size: 10px; color: var(--gold); letter-spacing: .1em; text-transform: uppercase; font-weight: 500; }
+  .rest-meta { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .rest-note { font-size: 13px; color: #3D3530; line-height: 1.6; }
+  .price-key { display: flex; gap: 14px; padding: 13px 0; border-top: 1px solid rgba(26,23,20,0.08); flex-wrap: wrap; margin-bottom: 16px; }
+  .price-key-item { font-size: 12px; color: var(--muted); }
+  .price-key-sym { font-size: 14px; color: var(--gold); margin-right: 4px; font-family: 'Cormorant Garamond', serif; }
+  .dining-tips { background: var(--dark); border-radius: 10px; overflow: hidden; }
+  .dining-tips-eye { font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); font-weight: 500; padding: 16px 16px 10px; }
+  .dining-tip { display: flex; gap: 10px; padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 13px; color: #8C7B6B; line-height: 1.6; }
+  .dining-tip:last-child { border-bottom: none; }
+
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+  .tab.active { animation: fadeIn .3s ease; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ══ HOME TAB ══ -->
+  <div id="tab-home" class="tab active">
+    <div class="hero">
+      <div class="hero-eyebrow">Private Travel Journal · Sicily · August 2026</div>
+      <h1 class="hero-title serif">La Bella<br><em>Sicilia</em></h1>
+      <div class="hero-sub">Taormina · Ortigia · Cefalù</div>
+      <div class="stats">
+        <div class="stat"><div class="stat-n serif">12</div><div class="stat-l">Nights</div></div>
+        <div class="stat"><div class="stat-n serif">3</div><div class="stat-l">Stops</div></div>
+        <div class="stat"><div class="stat-n serif">31 Jul</div><div class="stat-l">Depart</div></div>
+        <div class="stat"><div class="stat-n serif">11 Aug</div><div class="stat-l">Return</div></div>
+      </div>
+      <div class="countdown-wrap">
+        <div class="section-eyebrow">✈️ &nbsp;Departure Countdown</div>
+        <div class="countdown">
+          <div class="count-box"><div id="cd-days" class="count-n serif">0</div><div class="count-l">Days</div></div>
+          <div class="count-box"><div id="cd-hours" class="count-n serif">00</div><div class="count-l">Hrs</div></div>
+          <div class="count-box"><div id="cd-mins" class="count-n serif">00</div><div class="count-l">Min</div></div>
+          <div class="count-box"><div id="cd-secs" class="count-n serif pulse">00</div><div class="count-l">Sec</div></div>
+        </div>
+        <div class="count-note">EZY2491 · LTN 08:00 · Thu 31 Jul 2026</div>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="section-pad">
+      <div class="section-header">
+        <div class="section-eyebrow">Three Stops</div>
+        <h2 class="serif">Where We're Staying</h2>
+      </div>
+      <div class="pills" id="gallery-pills"></div>
+      <div class="gallery-wrap">
+        <img id="gallery-main" class="gallery-img" src="" alt="Sicily">
+        <div class="gallery-caption">
+          <div class="gallery-caption-eye" id="gallery-caption-eye"></div>
+          <div class="gallery-caption-title serif" id="gallery-caption-title"></div>
+        </div>
+        <button class="gallery-arrow left" onclick="galleryNav(-1)">‹</button>
+        <button class="gallery-arrow right" onclick="galleryNav(1)">›</button>
+      </div>
+      <div class="gallery-thumbs" id="gallery-thumbs"></div>
+    </div>
+
+    <!-- Trip summary -->
+    <div class="section-pad" style="padding-top:28px">
+      <div class="section-header">
+        <div class="section-eyebrow">At a Glance</div>
+        <h2 class="serif">The Journey</h2>
+      </div>
+      <div class="trip-cards">
+        <div class="trip-card" onclick="goItinerary('taormina')">
+          <div class="trip-card-icon">🌋</div>
+          <div class="trip-card-body">
+            <div class="trip-card-row"><div class="trip-card-name serif">Taormina</div><div class="trip-card-nights">3 nights</div></div>
+            <div class="trip-card-dates">31 Jul – 3 Aug</div>
+            <div class="trip-card-desc">Drama, views & Mount Etna</div>
+            <div class="trip-card-accom serif">Airbnb · Vico Giordano Bruno, 9 — Booked ✓</div>
+          </div>
+          <div class="trip-card-arrow">›</div>
+        </div>
+        <div class="trip-card" onclick="goItinerary('ortigia')">
+          <div class="trip-card-icon">🌊</div>
+          <div class="trip-card-body">
+            <div class="trip-card-row"><div class="trip-card-name serif">Ortigia</div><div class="trip-card-nights">4 nights</div></div>
+            <div class="trip-card-dates">3 – 6 Aug</div>
+            <div class="trip-card-desc">Baroque streets, sea & cuisine</div>
+            <div class="trip-card-accom serif">Airbnb — sea view terrace</div>
+          </div>
+          <div class="trip-card-arrow">›</div>
+        </div>
+        <div class="trip-card" onclick="goItinerary('cefalu')">
+          <div class="trip-card-icon">🏖️</div>
+          <div class="trip-card-body">
+            <div class="trip-card-row"><div class="trip-card-name serif">Cefalù</div><div class="trip-card-nights">5 nights · 3 rooms</div></div>
+            <div class="trip-card-dates">6 – 11 Aug</div>
+            <div class="trip-card-desc">Sandy beach & total relaxation</div>
+            <div class="trip-card-accom serif">Alberi del Paradiso ★★★★ · Breakfast included — Booked ✓</div>
+          </div>
+          <div class="trip-card-arrow">›</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flights -->
+    <div class="flight-box">
+      <div class="section-eyebrow" style="margin-bottom:14px">Flights · easyJet</div>
+      <div class="flight-row"><div class="flight-dir">Out</div><div class="flight-detail">EZY2491 · LTN 08:00 → CTA 12:15 · Thu 31 Jul</div></div>
+      <div class="flight-row"><div class="flight-dir">Back</div><div class="flight-detail">EZY2496 · PMO 21:45 → LTN 23:55 · Tue 11 Aug</div></div>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- ══ ITINERARY TAB ══ -->
+  <div id="tab-itinerary" class="tab">
+    <div class="stop-header">
+      <div class="section-eyebrow">Select Stop</div>
+      <div class="stop-selector">
+        <button class="stop-btn active" onclick="selectStop('taormina',this)">Taormina</button>
+        <button class="stop-btn" onclick="selectStop('ortigia',this)">Ortigia</button>
+        <button class="stop-btn" onclick="selectStop('cefalu',this)">Cefalù</button>
+      </div>
+    </div>
+    <div class="stop-info">
+      <div><div class="stop-name serif" id="stop-name">Taormina</div><div class="stop-meta" id="stop-meta">31 Jul–3 Aug · 3 nights</div></div>
+      <div class="stop-base" id="stop-base">Airbnb · Vico Giordano Bruno, 9 — Booked ✓</div>
+    </div>
+    <div class="day-pills" id="day-pills"></div>
+    <div id="travel-notice" class="travel-notice" style="display:none">
+      <span>🚗</span><span id="travel-notice-text"></span>
+    </div>
+    <div class="day-card" id="day-card">
+      <div class="day-card-header">
+        <div class="day-card-eye" id="day-date"></div>
+        <div class="day-card-title serif" id="day-label"></div>
+        <div class="day-card-vibe" id="day-vibe" style="display:none"></div>
+      </div>
+      <div id="day-items"></div>
+    </div>
+    <div class="day-nav">
+      <button class="day-nav-btn" id="prev-btn" onclick="changeDay(-1)">← Previous</button>
+      <button class="day-nav-btn" id="next-btn" onclick="changeDay(1)">Next →</button>
+    </div>
+    <div style="padding:0 16px;margin-bottom:16px">
+      <div class="section-eyebrow" style="margin-bottom:14px">Essential Experiences</div>
+      <div class="must-list" id="must-list"></div>
+    </div>
+    <div class="tips-box">
+      <div class="tips-eye">August Notes</div>
+      <div class="tip-row"><div class="tip-icon">🌡️</div><div><div class="tip-label">August heat</div><div class="tip-text">Plan downtime from 1–4pm every day. Midday is for pools, AC, and naps — not sightseeing.</div></div></div>
+      <div class="tip-row"><div class="tip-icon">📅</div><div><div class="tip-label">Book ahead</div><div class="tip-text">Restaurants and beach clubs fill fast in August. Book restaurants 2–3 days ahead minimum.</div></div></div>
+      <div class="tip-row"><div class="tip-icon">🚗</div><div><div class="tip-label">Driving</div><div class="tip-text">Easy motorway between all three stops. Park outside the old centres — don't try to drive in.</div></div></div>
+      <div class="tip-row"><div class="tip-icon">💶</div><div><div class="tip-label">Beach clubs</div><div class="tip-text">Budget €15–25/day per person for sunbeds + umbrella. Worth every cent in August heat.</div></div></div>
+    </div>
+    <div class="depart-bar"><span style="font-size:16px">✈️</span><div><strong>Day 12 — Tue 11 Aug</strong> · EZY2496 · PMO 21:45 → LTN 23:55</div></div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- ══ TRAVEL TAB ══ -->
+  <div id="tab-logistics" class="tab">
+    <div class="tab-pad">
+      <div class="tab-section-header"><h2 class="serif">Flights</h2><div class="tab-section-eye">easyJet · Confirmed</div></div>
+      <div class="toggle">
+        <button class="toggle-btn active" id="tog-out" onclick="selectFlight('outbound')">↗ Outbound · 31 Jul</button>
+        <button class="toggle-btn" id="tog-ret" onclick="selectFlight('return')">↙ Return · 11 Aug</button>
+      </div>
+      <!-- Outbound -->
+      <div id="flight-outbound">
+        <div class="flight-card" style="margin-bottom:10px">
+          <div class="flight-card-header"><div class="flight-card-route serif">London Luton → Catania</div><div class="flight-card-sub">LTN → CTA · Direct</div></div>
+          <div class="flight-card-body">
+            <div class="flight-times">
+              <div><div class="flight-time serif">08:00</div><div class="flight-airport">LTN</div></div>
+              <div class="flight-mid"><div class="flight-dur">3h 15m</div><div class="flight-line"></div><div class="flight-direct">DIRECT</div></div>
+              <div style="text-align:right"><div class="flight-time serif">12:15</div><div class="flight-airport">CTA</div></div>
+            </div>
+            <div class="flight-notes serif">Early start from Luton — arriving 12:15 local gives you a full afternoon in Taormina. Leave for airport by 5:30–6am.</div>
+          </div>
+        </div>
+        <div class="tip-list">
+          <div class="tip-list-row"><span style="font-size:15px;flex-shrink:0">⏰</span><span>Book now — August is peak season and fares are rising weekly</span></div>
+          <div class="tip-list-row"><span style="font-size:15px;flex-shrink:0">🚗</span><span>Book a hire car at Catania airport for the full trip. Return it at Palermo. One-way drop-off fee is worth it.</span></div>
+          <div class="tip-list-row"><span style="font-size:15px;flex-shrink:0">💺</span><span>Travelling as a group? Book seats together when you buy — don't rely on free seat selection</span></div>
+          <div class="tip-list-row"><span style="font-size:15px;flex-shrink:0">🧳</span><span>Check baggage allowance carefully — easyJet cabin bag rules are strict in peak season</span></div>
+        </div>
+      </div>
+      <!-- Return -->
+      <div id="flight-return" style="display:none">
+        <div class="flight-card" style="margin-bottom:10px">
+          <div class="flight-card-header"><div class="flight-card-route serif">Palermo → London Luton</div><div class="flight-card-sub">PMO → LTN · Direct</div></div>
+          <div class="flight-card-body">
+            <div class="flight-times">
+              <div><div class="flight-time serif">21:45</div><div class="flight-airport">PMO</div></div>
+              <div class="flight-mid"><div class="flight-dur">3h 10m</div><div class="flight-line"></div><div class="flight-direct">DIRECT</div></div>
+              <div style="text-align:right"><div class="flight-time serif">23:55</div><div class="flight-airport">LTN</div></div>
+            </div>
+            <div class="flight-notes serif">Evening departure — you get a full last day in Cefalù. Leave for Palermo airport around 19:00 (45 min drive). Land Luton 23:55.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accommodation -->
+      <div style="margin-top:32px">
+        <div class="tab-section-header"><h2 class="serif">Accommodation</h2></div>
+        <div class="toggle">
+          <button class="toggle-btn active" id="ac-tog-0" onclick="selectAccom(0)">🌴 Taormina</button>
+          <button class="toggle-btn" id="ac-tog-1" onclick="selectAccom(1)">🌊 Ortigia</button>
+          <button class="toggle-btn" id="ac-tog-2" onclick="selectAccom(2)">🏖️ Cefalù</button>
+        </div>
+        <div id="accom-panel"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DINING TAB ══ -->
+  <div id="tab-restaurants" class="tab">
+    <div class="tab-pad">
+      <div class="tab-section-header"><h2 class="serif">Dining Guide</h2><div class="tab-section-eye">Curated Selections</div></div>
+      <div class="toggle">
+        <button class="toggle-btn active" id="rest-tog-0" onclick="selectRest(0)">🌴 Taormina</button>
+        <button class="toggle-btn" id="rest-tog-1" onclick="selectRest(1)">🌊 Ortigia</button>
+        <button class="toggle-btn" id="rest-tog-2" onclick="selectRest(2)">🏖️ Cefalù</button>
+      </div>
+      <div id="rest-panel"></div>
+    </div>
+  </div>
+
+</div><!-- end app -->
+
+<!-- Bottom Nav -->
+<nav id="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="switchTab('home')"><span class="nav-icon">🏠</span><span class="nav-label">Overview</span><div class="nav-bar"></div></button>
+  <button class="nav-btn" id="nav-itinerary" onclick="switchTab('itinerary')"><span class="nav-icon">📅</span><span class="nav-label">Days</span><div class="nav-bar"></div></button>
+  <button class="nav-btn" id="nav-logistics" onclick="switchTab('logistics')"><span class="nav-icon">✈️</span><span class="nav-label">Travel</span><div class="nav-bar"></div></button>
+  <button class="nav-btn" id="nav-restaurants" onclick="switchTab('restaurants')"><span class="nav-icon">🍽️</span><span class="nav-label">Dining</span><div class="nav-bar"></div></button>
+</nav>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const stops = {
+  taormina: {
+    name:"Taormina", dates:"31 Jul – 3 Aug", nights:"3 nights",
+    base:"Airbnb · Vico Giordano Bruno, 9 — Booked ✓",
+    mustdo:["Beach club day at Isola Bella","Mount Etna excursion"],
+    days:[
+      { num:1, date:"Thu 31 Jul", label:"Arrival — ease in", vibe:"Keep it light", travel:null,
+        items:[{time:"Afternoon",text:"Transfer from Catania airport (~1 hr)"},{time:"On arrival",text:"Check in from 15:00 + explore"},{time:"Evening",text:"Short wander along Corso Umberto"},{time:"Dinner",text:"Somewhere with a view — no pressure tonight"}] },
+      { num:2, date:"Fri 1 Aug", label:"Beach day", vibe:null, travel:null,
+        items:[{time:"Morning",text:"Isola Bella — beach club or cable car down to the cove"},{time:"Lunch",text:"By the sea"},{time:"Afternoon",text:"Swim + chill"},{time:"Evening",text:"Walk the old town, ice cream stop, dinner out"}] },
+      { num:3, date:"Sat 2 Aug", label:"Mount Etna 🌋", vibe:"Dress up for dinner tonight", travel:null,
+        items:[{time:"Morning",text:"Half-day Etna trip — cable car + jeep option if you want"},{time:"Afternoon",text:"Back by 2–3pm, pool + decompress"},{time:"Dinner",text:"Your best dinner of the stop — book ahead"}] },
+    ]
+  },
+  ortigia: {
+    name:"Ortigia", dates:"3 – 6 Aug", nights:"4 nights",
+    base:"Airbnb — terrace + sea view ideal",
+    mustdo:["Boat trip around the coast","Rooftop drinks at sunset","Noto day trip"],
+    days:[
+      { num:4, date:"Sun 3 Aug", label:"Arrival + explore", vibe:null, travel:"~1 hr 15 drive from Taormina",
+        items:[{time:"Morning",text:"Drive south to Ortigia"},{time:"Afternoon",text:"Check in, walk the old town"},{time:"Late afternoon",text:"Swim off the rocks on Lungomare Levante"},{time:"Dinner",text:"Piazza del Duomo — sit outside"}] },
+      { num:5, date:"Mon 4 Aug", label:"Proper holiday day", vibe:"This is the one — no agenda", travel:null,
+        items:[{time:"Morning",text:"Slow start. Mercato di Ortigia for breakfast shopping"},{time:"Midday",text:"Swim + sun on the rocks or a boat trip out"},{time:"Lunch",text:"Long, leisurely — pasta alla Norma somewhere good"},{time:"Afternoon",text:"Nap. Wander. Repeat."},{time:"Evening",text:"Rooftop drinks → dinner → late drinks in the square"}] },
+      { num:6, date:"Tue 5 Aug", label:"Boat day 🚤", vibe:null, travel:null,
+        items:[{time:"Morning",text:"Boat trip around the coast — book via the harbour"},{time:"On the water",text:"Sea caves, swim stops, lunch on board or ashore"},{time:"Mid-afternoon",text:"Back to base — shower + relax"},{time:"Dinner",text:"Out in Ortigia — somewhere you didn't try yet"}] },
+      { num:7, date:"Wed 6 Aug", label:"Noto day trip", vibe:null, travel:null,
+        items:[{time:"Morning",text:"Drive ~40 min to Noto — the Baroque set piece of Sicily"},{time:"Midday",text:"Wander Via Corrado Nicolaci, granita stop, lunch"},{time:"Afternoon",text:"Optional beach on the way back (Lido di Noto)"},{time:"Evening",text:"Easy night in Ortigia — you've earned it"}] },
+    ]
+  },
+  cefalu: {
+    name:"Cefalù", dates:"6 – 11 Aug", nights:"5 nights",
+    base:"Alberi del Paradiso ★★★★ · Via dei Mulini, 18-20 — Booked ✓",
+    mustdo:["Proper full beach day","Old town evening wander"],
+    days:[
+      { num:8, date:"Thu 7 Aug", label:"Long drive + arrive", vibe:null, travel:"~3.5–4 hr drive west via A19",
+        items:[{time:"Morning",text:"Early start — long drive across the island"},{time:"Afternoon",text:"Check in from 15:00, straight to the beach"},{time:"Evening",text:"Wander the old town, dinner out — keep it simple"}] },
+      { num:9, date:"Fri 8 Aug", label:"Full beach day", vibe:null, travel:null,
+        items:[{time:"Morning",text:"Beach early — sunbeds by 9am or it's standing room only"},{time:"Lunch",text:"Beach bar or old town — your call"},{time:"Afternoon",text:"Back in the water. Cold beer. Repeat."},{time:"Evening",text:"Wander Cefalù's medieval lanes, nice dinner"}] },
+      { num:10, date:"Sat 9 Aug", label:"Flex day — your choice", vibe:"Keep it easy", travel:null,
+        items:[{time:"Option A",text:"Another beach day — no explanation needed"},{time:"Option B",text:"La Rocca hike (30–40 min up, ancient ruins at top) — do it early"},{time:"Option C",text:"Day trip to Palermo — 45 min by train"},{time:"Evening",text:"Second to last dinner — still make it count"}] },
+      { num:11, date:"Sun 10 Aug", label:"Last full day", vibe:"Savour it", travel:null,
+        items:[{time:"Morning",text:"One last beach morning — sunbeds, cold water, nothing else"},{time:"Lunch",text:"Old town or beach bar — your pick"},{time:"Afternoon",text:"Final swim, pack up at leisure"},{time:"Dinner",text:"Last dinner in Sicily — make it count"}] },
+    ]
+  }
+};
+
+const accomData = [
+  { stop:"Taormina", emoji:"🌴", dates:"Thu 31 Jul – Sun 3 Aug", nights:"3 nights", type:"Airbnb — Booked ✓",
+    priority:"Vico Giordano Bruno, 9 · Hosted by Livio",
+    options:[{ name:"Home in Taormina", tier:"Booked ✓", note:"Check-in Fri 31 Jul from 15:00 · Checkout Mon 3 Aug by 11:00 · Vico Giordano Bruno, 9 · Hosted by Livio", url:"https://www.airbnb.com/l/kewDuIGt" }],
+    tips:["Check-in from 15:00 — you land Catania at 12:15, so you'll arrive Taormina ~13:30. Drop bags and explore until check-in.","Checkout 11:00 on Mon 3 Aug — drive to Ortigia that morning, timing works perfectly","Vico Giordano Bruno is a small lane in the old town — park nearby and walk, don't try to drive in"] },
+  { stop:"Ortigia", emoji:"🌊", dates:"Sun 3 – Wed 6 Aug", nights:"4 nights", type:"Airbnb recommended",
+    priority:"Terrace or rooftop with sea view — makes the whole stay",
+    options:[{ name:"Airbnb with terrace", tier:"To book", note:"Search 'terrazzo vista mare Ortigia' — a private terrace transforms the stay. Book months ahead for August." },
+             { name:"Hotel Gutkowski", tier:"Hotel option", note:"Boutique, right on the seafront, great atmosphere. Smaller rooms but unbeatable position." }],
+    tips:["Stay on the island itself — not in modern Syracuse","August Airbnb in Ortigia books out fast. Move quickly if you find a good one.","Check the exact address — the island is small but some spots are far better positioned than others"] },
+  { stop:"Cefalù", emoji:"🏖️", dates:"Thu 6 – Tue 11 Aug", nights:"5 nights", type:"Hotel — Booked ✓",
+    priority:"5 nights · 3 rooms · Breakfast included",
+    options:[{ name:"Alberi del Paradiso ★★★★", tier:"Booked ✓", note:"Check-in Thu 6 Aug · Checkout Tue 11 Aug · 5 nights · 3 rooms · 5 guests · Classic Rooms with breakfast included. Ref: 2026042848026829. Free cancellation until Wed 29 Jul 2026. Phone: +39 0921 423900", url:"https://alberidelparadiso.it/" }],
+    tips:["Free cancellation until Wed 29 Jul — cancel before you fly if plans change","Free shuttle bus to the private beach — check timetable on arrival","Breakfast is included — great start to every beach day","Book Al Capone restaurant on arrival — worth doing at least once"] },
+];
+
+const restData = [
+  { stop:"Taormina", emoji:"🌴",
+    intro:"Taormina has great food but watch the tourist traps on Corso Umberto — the best places are just off the main drag.",
+    places:[
+      { name:"Ristorante Otto Geleng", type:"Fine dining", meal:"Dinner", price:"€€€€", must:true, url:"https://www.belmond.com/hotels/europe/italy/taormina/belmond-grand-hotel-timeo/otto-geleng-restaurant", note:"Michelin-starred terrace with one of Sicily's great views. Book well in advance." },
+      { name:"Trattoria da Nino", type:"Trattoria", meal:"Lunch / Dinner", price:"€€", must:false, url:"https://trattoriadaninotaormina.com/en/", note:"Unpretentious, locals eat here. Excellent pasta and grilled fish. No view, just good food." },
+      { name:"Tischi Toschi", type:"Sicilian", meal:"Dinner", price:"€€€", must:true, url:"https://www.tischitoschitaormina.com/", note:"Slow Food-awarded. No fixed menu — whatever's seasonal. Book ahead." },
+      { name:"Bam Bar", type:"Café / Granita", meal:"Breakfast", price:"€", must:true, url:"https://www.tripadvisor.com/Restaurant_Review-g187892-d1247144-Reviews-Bar_Bam_Bar-Taormina_Province_of_Messina_Sicily.html", note:"The legendary granita spot. Almond granita with brioche — don't skip it." },
+      { name:"Osteria Nero d'Avola", type:"Wine bar", meal:"Dinner", price:"€€€", must:false, url:"https://www.tripadvisor.com/Restaurant_Review-g187892-d1179007-Reviews-Osteria_Nero_D_Avola-Taormina_Province_of_Messina_Sicily.html", note:"Good Sicilian wine list, small plates. Good for the first night." },
+    ],
+    tips:["Book the special dinner 2+ weeks ahead in August","Avoid any restaurant with a photo menu board outside","Most kitchens open at 7:30pm — locals don't sit until 9pm"] },
+  { stop:"Ortigia", emoji:"🌊",
+    intro:"Ortigia is the best eating stop on the trip. The morning market sets the agenda — whatever looks best ends up on plates that evening.",
+    places:[
+      { name:"Ristorante Don Camillo", type:"Seafood", meal:"Dinner", price:"€€€€", must:true, url:"https://www.ristorantedoncamillosiracusa.it/", note:"The serious dinner in Ortigia. Exceptional seafood, proper wine list. Book ahead." },
+      { name:"Trattoria La Medusa", type:"Trattoria", meal:"Lunch / Dinner", price:"€€", must:false, url:"https://www.tripadvisor.com/Restaurant_Review-g187891-d2394953-Reviews-Trattoria_La_Medusa-Syracuse_Province_of_Syracuse_Sicily.html", note:"Simple, unfussy, good value. Perfect for a lazy lunch." },
+      { name:"Porta Marina da Salvo", type:"Seafood", meal:"Dinner", price:"€€€", must:true, url:"https://www.tripadvisor.com/Restaurant_Review-g187891-d1078568-Reviews-Ristorante_Porta_Marina-Syracuse_Province_of_Syracuse_Sicily.html", note:"Right on the sea wall. Pasta con le sarde, swordfish alla ghiotta." },
+      { name:"Mercato di Ortigia", type:"Market", meal:"Breakfast / Lunch", price:"€", must:true, url:"https://www.tripadvisor.com/Attraction_Review-g187891-d2096297-Reviews-Mercato_di_Ortigia-Syracuse_Province_of_Syracuse_Sicily.html", note:"Buy here every morning. Arancini, panelle, olives, local cheese." },
+      { name:"Biblos", type:"Wine bar", meal:"Aperitivo", price:"€€", must:false, url:"https://www.tripadvisor.com/Restaurant_Review-g187891-d6490832-Reviews-Biblos-Syracuse_Province_of_Syracuse_Sicily.html", note:"Good Sicilian natural wine list. The spot for pre-dinner drinks." },
+      { name:"Caseificio Borderi", type:"Deli", meal:"Lunch", price:"€", must:false, url:"https://www.tripadvisor.com/Restaurant_Review-g187891-d12875003-Reviews-Caseificio_Borderi-Syracuse_Province_of_Syracuse_Sicily.html", note:"Cheese, salumi, and a glass of wine for €10. Locals only." },
+    ],
+    tips:["Piazza del Duomo restaurants are beautiful but overpriced — eat one street back","Lunch is often better value than dinner at the same place","Ask your Airbnb host for their personal pick"] },
+  { stop:"Cefalù", emoji:"🏖️",
+    intro:"Cefalù has fewer options but a handful of genuinely good restaurants in the medieval quarter. Keep it relaxed.",
+    places:[
+      { name:"Ristorante Il Covo del Pirata", type:"Seafood", meal:"Dinner", price:"€€€", must:true, url:"https://www.tripadvisor.com/Restaurant_Review-g194726-d1979302-Reviews-Il_Covo_del_Pirata-Cefalu_Province_of_Palermo_Sicily.html", note:"Near the old harbour. Best fresh fish in Cefalù. Book for your special dinner." },
+      { name:"Osteria del Duomo", type:"Sicilian", meal:"Dinner", price:"€€€", must:false, url:"https://www.tripadvisor.com/Restaurant_Review-g194726-d1559091-Reviews-Osteria_del_Duomo-Cefalu_Province_of_Palermo_Sicily.html", note:"Cathedral view terrace. Food is decent, location unbeatable." },
+      { name:"La Brace", type:"Trattoria", meal:"Dinner", price:"€€", must:false, url:"https://www.tripadvisor.com/Restaurant_Review-g194726-d1066206-Reviews-La_Brace-Cefalu_Province_of_Palermo_Sicily.html", note:"Reliable local favourite. Grilled meat and fish, fair prices." },
+      { name:"Bar Duomo", type:"Café / Gelato", meal:"Breakfast / Snack", price:"€", must:true, url:"https://www.tripadvisor.com/Restaurant_Review-g194726-d6523895-Reviews-Bar_Duomo-Cefalu_Province_of_Palermo_Sicily.html", note:"Granita and brioche to start every beach day. Also good for evening gelato." },
+    ],
+    tips:["August weekends fill up fast — Saturday night especially","Cefalù is small — most restaurants within 10 min of the beach","Eat early-ish (8pm) here — the town is quieter than the other stops"] },
+];
+
+const galleryData = [
+  { stop:"Taormina", label:"Teatro Antico & Etna", caption:"31 Jul – 3 Aug",
+    images:["https://images.pexels.com/photos/20357290/pexels-photo-20357290.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/20357288/pexels-photo-20357288.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/33618207/pexels-photo-33618207.jpeg?auto=compress&cs=tinysrgb&w=800"] },
+  { stop:"Ortigia", label:"Baroque Sea Island", caption:"3 – 6 Aug",
+    images:["https://images.pexels.com/photos/14137046/pexels-photo-14137046.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/5597694/pexels-photo-5597694.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/10551529/pexels-photo-10551529.jpeg?auto=compress&cs=tinysrgb&w=800"] },
+  { stop:"Cefalù", label:"Alberi del Paradiso", caption:"6 – 11 Aug",
+    images:["https://images.pexels.com/photos/18453312/pexels-photo-18453312.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/18359340/pexels-photo-18359340.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/30800915/pexels-photo-30800915.jpeg?auto=compress&cs=tinysrgb&w=800"] },
+];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let currentTab = 'home';
+let currentStop = 'taormina';
+let currentDay = 0;
+let currentGalleryStop = 0;
+let currentGalleryImg = 0;
+let currentAccom = 0;
+let currentRest = 0;
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('nav-' + tab).classList.add('active');
+  currentTab = tab;
+  window.scrollTo(0,0);
+}
+
+function goItinerary(stopId) {
+  selectStop(stopId, null);
+  switchTab('itinerary');
+}
+
+// ═══════════════════════════════════════════
+// COUNTDOWN
+// ═══════════════════════════════════════════
+function updateCountdown() {
+  const target = new Date("2026-07-31T08:00:00+01:00").getTime();
+  const diff = target - Date.now();
+  if (diff <= 0) return;
+  const days  = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins  = Math.floor((diff % 3600000) / 60000);
+  const secs  = Math.floor((diff % 60000) / 1000);
+  document.getElementById('cd-days').textContent  = days;
+  document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('cd-mins').textContent  = String(mins).padStart(2,'0');
+  document.getElementById('cd-secs').textContent  = String(secs).padStart(2,'0');
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ═══════════════════════════════════════════
+// GALLERY
+// ═══════════════════════════════════════════
+function renderGallery() {
+  const g = galleryData[currentGalleryStop];
+  // Pills
+  const pillsEl = document.getElementById('gallery-pills');
+  pillsEl.innerHTML = galleryData.map((gd,i) =>
+    `<button class="pill ${i===currentGalleryStop?'active':''}" onclick="selectGalleryStop(${i})">${gd.stop}</button>`
+  ).join('');
+  // Main image
+  const img = document.getElementById('gallery-main');
+  img.src = g.images[currentGalleryImg];
+  img.onerror = () => img.src = 'https://images.pexels.com/photos/20357290/pexels-photo-20357290.jpeg?auto=compress&cs=tinysrgb&w=800';
+  document.getElementById('gallery-caption-eye').textContent = g.caption;
+  document.getElementById('gallery-caption-title').textContent = g.label;
+  // Thumbs
+  document.getElementById('gallery-thumbs').innerHTML = g.images.map((src,i) =>
+    `<div class="gallery-thumb ${i===currentGalleryImg?'active':''}" onclick="selectGalleryImg(${i})"><img src="${src}" onerror="this.src='https://images.pexels.com/photos/18453312/pexels-photo-18453312.jpeg?auto=compress&cs=tinysrgb&w=200'"></div>`
+  ).join('');
+}
+
+function selectGalleryStop(i) {
+  currentGalleryStop = i; currentGalleryImg = 0; renderGallery();
+}
+function selectGalleryImg(i) {
+  currentGalleryImg = i; renderGallery();
+}
+function galleryNav(dir) {
+  const len = galleryData[currentGalleryStop].images.length;
+  currentGalleryImg = Math.max(0, Math.min(len-1, currentGalleryImg + dir));
+  renderGallery();
+}
+
+// ═══════════════════════════════════════════
+// ITINERARY
+// ═══════════════════════════════════════════
+function selectStop(id, btn) {
+  currentStop = id; currentDay = 0;
+  document.querySelectorAll('.stop-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    const btns = document.querySelectorAll('.stop-btn');
+    const idx = ['taormina','ortigia','cefalu'].indexOf(id);
+    if (btns[idx]) btns[idx].classList.add('active');
+  }
+  renderItinerary();
+}
+
+function renderItinerary() {
+  const s = stops[currentStop];
+  document.getElementById('stop-name').textContent = s.name;
+  document.getElementById('stop-meta').textContent = s.dates + ' · ' + s.nights;
+  document.getElementById('stop-base').textContent = s.base;
+  // Day pills
+  document.getElementById('day-pills').innerHTML = s.days.map((d,i) =>
+    `<button class="day-pill ${i===currentDay?'active':''}" onclick="selectDay(${i})">Day ${d.num} · ${d.date.split(' ').slice(0,2).join(' ')}</button>`
+  ).join('');
+  renderDay();
+}
+
+function selectDay(i) {
+  currentDay = i;
+  renderItinerary();
+}
+
+function changeDay(dir) {
+  const s = stops[currentStop];
+  currentDay = Math.max(0, Math.min(s.days.length-1, currentDay + dir));
+  renderItinerary();
+}
+
+function renderDay() {
+  const s = stops[currentStop];
+  const d = s.days[currentDay];
+  // Travel notice
+  const tn = document.getElementById('travel-notice');
+  if (d.travel) { tn.style.display='flex'; document.getElementById('travel-notice-text').innerHTML = `<strong>Travel day</strong> — ${d.travel}`; }
+  else tn.style.display='none';
+  // Header
+  document.getElementById('day-date').textContent = d.date;
+  document.getElementById('day-label').textContent = d.label;
+  const vibe = document.getElementById('day-vibe');
+  if (d.vibe) { vibe.style.display='block'; vibe.textContent = '👉 ' + d.vibe; }
+  else vibe.style.display='none';
+  // Items
+  document.getElementById('day-items').innerHTML = d.items.map(item =>
+    `<div class="day-row"><div class="day-time">${item.time}</div><div class="day-text">${item.text}</div></div>`
+  ).join('');
+  // Nav buttons
+  document.getElementById('prev-btn').disabled = currentDay === 0;
+  document.getElementById('next-btn').disabled = currentDay === s.days.length-1;
+  // Must-dos
+  document.getElementById('must-list').innerHTML = s.mustdo.map(m =>
+    `<div class="must-item"><div class="must-dot"><div class="must-dot-inner"></div></div><div class="must-text">${m}</div></div>`
+  ).join('');
+}
+
+// ═══════════════════════════════════════════
+// FLIGHTS TOGGLE
+// ═══════════════════════════════════════════
+function selectFlight(dir) {
+  document.getElementById('flight-outbound').style.display = dir==='outbound'?'block':'none';
+  document.getElementById('flight-return').style.display   = dir==='return'?'block':'none';
+  document.getElementById('tog-out').classList.toggle('active', dir==='outbound');
+  document.getElementById('tog-ret').classList.toggle('active', dir==='return');
+}
+
+// ═══════════════════════════════════════════
+// ACCOMMODATION
+// ═══════════════════════════════════════════
+function selectAccom(i) {
+  currentAccom = i;
+  [0,1,2].forEach(j => {
+    document.getElementById('ac-tog-'+j).classList.toggle('active', j===i);
+  });
+  renderAccom();
+}
+
+function renderAccom() {
+  const a = accomData[currentAccom];
+  document.getElementById('accom-panel').innerHTML = `
+    <div class="accom-card">
+      <div class="accom-header">
+        <div>
+          <div class="accom-eye">${a.dates} · ${a.nights}</div>
+          <div class="accom-name serif">${a.stop}</div>
+          <div class="accom-priority">${a.priority}</div>
+        </div>
+        <div class="accom-badge">${a.type}</div>
+      </div>
+      ${a.options.map(o => `
+        <div class="accom-option">
+          <div class="accom-opt-row">
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <span class="accom-opt-name">${o.name}</span>
+              <span class="accom-opt-tier ${o.tier==='Booked ✓'?'tier-booked':'tier-generic'}">${o.tier}</span>
+            </div>
+            ${o.url ? `<a href="${o.url}" target="_blank" class="accom-opt-link">View ↗</a>` : ''}
+          </div>
+          <div class="accom-opt-note">${o.note}</div>
+        </div>`).join('')}
+    </div>
+    <div class="tip-list">
+      ${a.tips.map(t => `<div class="tip-list-row"><span>—</span><span>${t}</span></div>`).join('')}
+    </div>`;
+}
+
+// ═══════════════════════════════════════════
+// RESTAURANTS
+// ═══════════════════════════════════════════
+function selectRest(i) {
+  currentRest = i;
+  [0,1,2].forEach(j => {
+    document.getElementById('rest-tog-'+j).classList.toggle('active', j===i);
+  });
+  renderRest();
+}
+
+function renderRest() {
+  const r = restData[currentRest];
+  document.getElementById('rest-panel').innerHTML = `
+    <p style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:20px;font-style:italic">${r.intro}</p>
+    ${r.places.map(p => `
+      <div class="rest-card${p.must?' must':''}">
+        <div class="rest-card-top">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1">
+            <span class="rest-name serif">${p.name}</span>
+            ${p.must ? '<span class="rest-essential">Essential</span>' : ''}
+          </div>
+          <div class="rest-right">
+            <span class="rest-price serif">${p.price}</span>
+            ${p.url ? `<a href="${p.url}" target="_blank" class="rest-link">↗</a>` : ''}
+          </div>
+        </div>
+        <div class="rest-meta">${p.type} · ${p.meal}</div>
+        <div class="rest-note">${p.note}</div>
+      </div>`).join('')}
+    <div class="price-key">
+      <div class="price-key-item"><span class="price-key-sym serif">€</span>Under €20pp</div>
+      <div class="price-key-item"><span class="price-key-sym serif">€€</span>€20–35pp</div>
+      <div class="price-key-item"><span class="price-key-sym serif">€€€</span>€35–55pp</div>
+      <div class="price-key-item"><span class="price-key-sym serif">€€€€</span>€55+pp</div>
+    </div>
+    <div class="dining-tips">
+      <div class="dining-tips-eye">Notes on Dining in ${r.stop}</div>
+      ${r.tips.map(t => `<div class="dining-tip"><span>—</span><span>${t}</span></div>`).join('')}
+    </div>`;
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+renderGallery();
+renderItinerary();
+renderAccom();
+renderRest();
+</script>
+</body>
+</html>
