@@ -283,11 +283,16 @@ a{text-decoration:none;color:inherit;}
   <div id="tab-logistics" class="tab">
     <div class="tab-header"><h2 class="serif">Travel</h2><div class="tab-header-sub">Flights · Train · Transfers</div></div>
     <div class="flight-toggle">
-      <button class="flight-tog-btn active" id="tog-out" onclick="selectTravel('flights')">✈️ Flights</button>
-      <button class="flight-tog-btn" id="tog-ret" onclick="selectTravel('train')">🚂 Train</button>
-      <button class="flight-tog-btn" id="tog-transfer" onclick="selectTravel('transfers')">🚗 Transfers</button>
+      <button class="flight-tog-btn active" id="tog-flights" onclick="selectTravel('flights')">✈️ Flights</button>
+      <button class="flight-tog-btn" id="tog-train" onclick="selectTravel('train')">🚂 Train</button>
+      <button class="flight-tog-btn" id="tog-transfers" onclick="selectTravel('transfers')">🚗 Transfers</button>
     </div>
-    <div id="travel-flights"><div id="flight-outbound">
+    <div id="travel-flights">
+      <div style="display:flex;border-bottom:1px solid var(--rule)">
+        <button class="flight-tog-btn active" id="sub-out" onclick="selectFlight('outbound')" style="font-size:10px">↗ Outbound · 31 Jul</button>
+        <button class="flight-tog-btn" id="sub-ret" onclick="selectFlight('return')" style="font-size:10px">↙ Return · 11 Aug</button>
+      </div>
+      <div id="flight-outbound">
       <div class="flight-detail-card">
         <div class="flight-route serif">London Luton → Catania</div>
         <div class="flight-code">LTN → CTA · EZY2491 · Direct · Check-in opens Wed 1 Jul</div>
@@ -299,7 +304,6 @@ a{text-decoration:none;color:inherit;}
         <div class="flight-notes-box">Bag drop opens 05:00, closes 07:00 — be at Luton by 05:00. Arriving Catania 12:15, Terminal A.</div>
       </div>
       <div class="tip-list-plain">
-        <div class="tip-list-row"><span>⏰</span><span>Book now — August peak fares rise weekly</span></div>
         <div class="tip-list-row"><span>🚗</span><span>Hire car at Catania, return at Palermo — one-way drop-off is worth it</span></div>
         <div class="tip-list-row"><span>💺</span><span>Book seats together when you buy — don't rely on free selection</span></div>
         <div class="tip-list-row"><span>🧳</span><span>Check baggage — easyJet cabin bag rules are strict in peak season</span></div>
@@ -316,7 +320,7 @@ a{text-decoration:none;color:inherit;}
         </div>
         <div class="flight-notes-box">Bag drop opens 19:45, closes 21:05 — leave Cefalù by 18:30 at the latest. 45 min drive to Palermo airport.</div>
       </div>
-    </div><!-- end travel-flights -->
+    </div></div><!-- end travel-flights -->
 
     <!-- Train panel -->
     <div id="travel-train" style="display:none;border-top:1px solid var(--rule)">
@@ -335,11 +339,11 @@ a{text-decoration:none;color:inherit;}
         <div style="background:var(--off);padding:13px 16px;font-size:15px;color:var(--warm);line-height:1.6;font-style:italic">Scenic coastal route — sit on the right side of the train for sea views. Allow ~15 min taxi from Taormina town down to Giardini station.</div>
       </div>
       <div style="border-bottom:1px solid var(--rule)">
-        <div style="display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--warm);line-height:1.6;align-items:flex-start"><span>Barry Lennon</span><span style="margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.06em">2843242388</span></div>
-        <div style="display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--warm);line-height:1.6;align-items:flex-start"><span>Beatrix Lennon</span><span style="margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.06em">2843242383</span></div>
-        <div style="display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--warm);line-height:1.6;align-items:flex-start"><span>Jack Lennon</span><span style="margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.06em">2843242385</span></div>
-        <div style="display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--warm);line-height:1.6;align-items:flex-start"><span>Matthew Lennon</span><span style="margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.06em">2843242384</span></div>
-        <div style="display:flex;gap:10px;padding:12px 20px;font-size:13px;color:var(--warm);line-height:1.6;align-items:flex-start"><span>Sophy Lennon</span><span style="margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.06em">2843242387</span></div>
+        <div style="display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--warm);line-height:1.6;align-items:center"><span>Barry Lennon</span><span style="margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.06em">2843242388</span><a href="https://github.com/lennonbarry-a11y/sicily-2026/blob/main/Barry-Lennon-2843242388.pdf" target="_blank" style="font-size:10px;color:var(--black);border-bottom:1px solid var(--rule);padding-bottom:1px;margin-left:12px;white-space:nowrap">Ticket →</a></div>
+        <div style="display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--warm);line-height:1.6;align-items:center"><span>Beatrix Lennon</span><span style="margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.06em">2843242383</span><a href="https://github.com/lennonbarry-a11y/sicily-2026/blob/main/Beatrix-Lennon-2843242383.pdf" target="_blank" style="font-size:10px;color:var(--black);border-bottom:1px solid var(--rule);padding-bottom:1px;margin-left:12px;white-space:nowrap">Ticket →</a></div>
+        <div style="display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--warm);line-height:1.6;align-items:center"><span>Jack Lennon</span><span style="margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.06em">2843242385</span><a href="https://github.com/lennonbarry-a11y/sicily-2026/blob/main/Jack-Lennon-2843242385.pdf" target="_blank" style="font-size:10px;color:var(--black);border-bottom:1px solid var(--rule);padding-bottom:1px;margin-left:12px;white-space:nowrap">Ticket →</a></div>
+        <div style="display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--warm);line-height:1.6;align-items:center"><span>Matthew Lennon</span><span style="margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.06em">2843242384</span><a href="https://github.com/lennonbarry-a11y/sicily-2026/blob/main/matthew-Lennon-2843242384.pdf" target="_blank" style="font-size:10px;color:var(--black);border-bottom:1px solid var(--rule);padding-bottom:1px;margin-left:12px;white-space:nowrap">Ticket →</a></div>
+        <div style="display:flex;gap:10px;padding:12px 20px;font-size:13px;color:var(--warm);line-height:1.6;align-items:center"><span>Sophy Lennon</span><span style="margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.06em">2843242387</span><a href="https://github.com/lennonbarry-a11y/sicily-2026/blob/main/sophy-Lennon-2843242387.pdf" target="_blank" style="font-size:10px;color:var(--black);border-bottom:1px solid var(--rule);padding-bottom:1px;margin-left:12px;white-space:nowrap">Ticket →</a></div>
       </div>
       <div style="padding:14px 20px;background:var(--off);font-size:12px;color:var(--muted)">⚠️ Tickets show "Not Valid for Travel" — confirm payment is complete on Trenitalia before travel.</div>
     </div><!-- end travel-train -->
@@ -449,15 +453,15 @@ function selectTravel(section){
     const el=document.getElementById(id);
     if(el) el.classList.remove('active');
   });
-  const map={flights:'tog-out',train:'tog-ret',transfers:'tog-transfer'};
+  const map={flights:'tog-flights',train:'tog-train',transfers:'tog-transfers'};
   const btn=document.getElementById(map[section]);
   if(btn) btn.classList.add('active');
 }
 function selectFlight(dir){
   document.getElementById('flight-outbound').style.display=dir==='outbound'?'block':'none';
   document.getElementById('flight-return').style.display=dir==='return'?'block':'none';
-  document.getElementById('tog-out').classList.toggle('active',dir==='outbound');
-  document.getElementById('tog-ret').classList.toggle('active',dir==='return');
+  document.getElementById('sub-out').classList.toggle('active',dir==='outbound');
+  document.getElementById('sub-ret').classList.toggle('active',dir==='return');
 }
 
 function selectAccom(i){currentAccom=i;[0,1,2].forEach(j=>document.getElementById('ac-tog-'+j).classList.toggle('active',j===i));renderAccom();}
